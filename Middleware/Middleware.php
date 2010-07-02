@@ -8,7 +8,7 @@ class Middleware {
 
     public function __construct(array $middleware) {
         foreach($middleware as $mw) {
-            $this->middleware[] = new $middleware();
+            $this->middleware[] = new $mw();
         }
     }
 
