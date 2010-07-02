@@ -1,5 +1,6 @@
 <?php
 
 $settings = array(
-    // Empty for now..
+    // The name of the urls file, excluding .php
+    'urls_file' => 'urls'
 );
