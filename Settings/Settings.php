@@ -20,10 +20,16 @@ class Settings {
     public static function get($key) {
         if(isset(self::$settings[$key])) {
             return self::$settings[$key];
+        } else {
+            throw new Exception('No setting with key "' . $key . '".');
         }
     }
 
     public function __get($key) {
         return self::get($key);
+    }
+
+    public function __isset($key) {
+        return isset(self::$settings[$key]);
     }
 }
