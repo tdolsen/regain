@@ -5,6 +5,13 @@ namespace regain\Settings;
 class Settings {
     private static $settings;
 
+    public function __construct($settings = null) {
+        self::setup();
+        if(is_array($settings)) {
+            self::update($settings);
+        }
+    }
+
     private static function setup() {
         if(!isset(self::$settings)) {
             require 'regain/global_settings.php';
