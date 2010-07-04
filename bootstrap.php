@@ -64,6 +64,9 @@ try {
 
 	// Get that response out!!!
 	echo $response;
+} catch(IncludeException $e) {
+    include 'regain/templates/errors/IncludeException.php';
+    exit;
 } catch(Exception $e) {
     echo "<h1>Reached bottom catch</h1>";
     print_r($e);
