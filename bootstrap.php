@@ -32,8 +32,6 @@ try {
 	$request = new Request();
 	$middleware = new Middleware($settings->middleware);
 
-	$router = new Router();
-
 	// Process request middleware
 	$middleware->process_request($request);
 
@@ -41,7 +39,7 @@ try {
 	assert(file_exists($settings->urls_file . '.php'), 'The urls file "' . $settings->urls_file . '.php" does not exist. Make sure the file exist and that it matches your setting in settings.php.');
 	require $settings->urls_file . '.php';
 
-	// TODO: Process urls middleware
+	// TODO: Process urls middleware; do we have to?
 	//$middleware->process_urls($request, $patterns);
 
 	// Set up the router and get view
@@ -52,7 +50,8 @@ try {
 	//$middleware->process_view($request, $view);
 
 	// Run the view
-	$response = call_user_func($view, $request);
+//	$response = @call_user_func($view, $request);
+	$response = $view($request);
 
 	// And throw an exception if response is of wrong type
 	if(!$response instanceof Response) {
