@@ -48,7 +48,8 @@ try {
 	$view = $patterns->get_view($request->path);
 
         if($view === null) {
-            throw new ResponseNotFound();
+            $response = new ResponseNotFound();
+            goto response;
         }
 
 	// TODO: Process view middleware
@@ -65,6 +66,9 @@ try {
 
 	// Process response middleware
 	$middleware->process_response($request, $response);
+
+        // goto label for outputting response
+        response:
 
 	// Get that response out!!!
 	echo $response;
