@@ -6,6 +6,7 @@ require 'regain/functions.php';
 
 use regain\HTTP\Request
   , regain\HTTP\Response
+  , regain\HTTP\ResponseNotFound
   , regain\Middleware\Middleware
   , regain\Settings\Settings
   , regain\URL\Router
@@ -45,6 +46,10 @@ try {
 	// Set up the router and get view
 	//$router = new Router($patterns);
 	$view = $patterns->get_view($request->path);
+
+        if($view === null) {
+            throw new ResponseNotFound();
+        }
 
 	// TODO: Process view middleware
 	//$middleware->process_view($request, $view);
