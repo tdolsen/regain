@@ -15,6 +15,7 @@ use regain\HTTP\Request
   , regain\assert
   , regain\is_includable
   , regain\autoload
+  , regain\_include
   ;
 
 try {
@@ -47,17 +48,35 @@ try {
 	//$router = new Router($patterns);
 	$view = $patterns->get_view($request->path);
 
-        if($view === null) {
-            $response = new ResponseNotFound();
-            goto response;
-        }
+	if($view === null) {
+	    $response = new ResponseNotFound();
+	    goto response;
+	}
+
+	$view = explode('\\', $view);
+	$v = array(
+	    'function' => array_pop($view),
+	    'file' => array_pop($view),
+	    'path' => implode('/', $view)
+	);
+
+	if(strlen($v['path']) > 0) {
+	    $v['path'].= '/';
+	}
+
+	_include($v['path'] . $v['file'] . '.php');
 
 	// TODO: Process view middleware
 	//$middleware->process_view($request, $view);
 
 	// Run the view
 //	$response = @call_user_func($view, $request);
-	$response = $view($request);
+
+	if(!function_exists($v['function'])) {
+	    throw new Exception('Function "' . $v['function'] . '" does not exist.');
+	}
+
+	$response = $v['function']($request);
 
 	// And throw an exception if response is of wrong type
 	if(!$response instanceof Response) {

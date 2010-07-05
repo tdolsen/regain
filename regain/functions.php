@@ -34,13 +34,13 @@ function autoload($class) {
     $file = str_replace(array('\\'), array('/'), $class) . '.php';
 
     if(!is_includable($file)) {
-	throw new IncludeException($file, 'The file "' . $file . '" is not in include_path, and cannot be included.');
+	throw new Exceptions\IncludeException($file, 'The file "' . $file . '" is not in include_path, and cannot be included.');
     }
 
     try {
 	require_once $file;
     } catch (ErrorException $e) {
-	throw new IncludeException($file, 'The file "' . $file . '" is malformatted.');
+	throw new Exceptions\IncludeException($file, 'The file "' . $file . '" is malformatted.');
     }
 }
 
@@ -51,10 +51,10 @@ function autoload($class) {
 // First parameter has to be bool.
 function assert($true, $text) {
     if(!is_bool($true)) {
-        throw new TypeException('First parameter of regain\assert must be boolean.');
+        throw new Exceptions\TypeException('First parameter of regain\assert must be boolean.');
     }
     if(!$true) {
-        throw new AssertException($text);
+        throw new Exceptions\AssertException($text);
     }
 }
 
@@ -63,7 +63,7 @@ function assert($true, $text) {
 // Wrappers includes to throw exceptions on error
 function __process_include($type, $file, &$var=null) {
     if(!is_includable($file)) {
-        throw new IncludeException($file);
+        throw new Exceptions\IncludeException($file);
     }
     switch($type) {
         case 'include': include $file; break;
