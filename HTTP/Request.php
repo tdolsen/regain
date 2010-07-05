@@ -8,7 +8,7 @@ class Request {
     public function __construct() {
         $data = array();
 
-        $data['path'] = 'tab/';
+        $data['path'] = 'tab/item/blue-blabla/';
 
         $this->data = $data;
     }
