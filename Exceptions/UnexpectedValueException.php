@@ -1,5 +1,5 @@
 <?php
 
-namespace regain;
+namespace regain\Exceptions;
 
 class UnexpectedValueException extends Exception {}

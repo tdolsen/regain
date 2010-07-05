@@ -1,6 +1,6 @@
 <?php
 
-namespace regain;
+namespace regain\Exceptions;
  
 class IncludeException extends Exception {
     protected $include_file;
