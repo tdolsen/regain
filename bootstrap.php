@@ -10,8 +10,8 @@ use regain\HTTP\Request
   , regain\Middleware\Middleware
   , regain\Settings\Settings
   , regain\URL\Router
-  , regain\Exception
-  , regain\IncludeException
+  , regain\Exceptions\Exception
+  , regain\Exceptions\IncludeException
   , regain\assert
   , regain\is_includable
   , regain\autoload
@@ -61,7 +61,7 @@ try {
 
 	// And throw an exception if response is of wrong type
 	if(!$response instanceof Response) {
-	throw new UnexpectedValueException('The return value of view functions must be an instance of HTTP\Response');
+	    throw new UnexpectedValueException('The return value of view functions must be an instance of HTTP\Response');
 	}
 
 	// Process response middleware
@@ -70,8 +70,17 @@ try {
         // goto label for outputting response
         response:
 
+	// Test for debug-output
+	if($settings->debug) {
+	    if($response instanceof ResponseNotFound) {
+	        include 'regain/templates/errors/ReponseNotFound.php';
+	        exit;
+	    }
+	}
+
 	// Get that response out!!!
 	echo $response;
+        exit;
 } catch(IncludeException $e) {
     include 'regain/templates/errors/IncludeException.php';
     exit;
