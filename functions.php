@@ -89,7 +89,7 @@ function _require_once($file, &$var=null) { __process_include('require_once', $f
 
 // Offers a way to add hierarcial urls.php definitions
 function include_urls($file) {
-    $up = array('urlpatterns');
+    $up = array('patterns');
     _require($file, $up);
-    return $up['urlpatterns'];
+    return $up['patterns'];
 }

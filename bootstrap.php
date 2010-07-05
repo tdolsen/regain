@@ -43,8 +43,8 @@ try {
 	//$middleware->process_urls($request, $patterns);
 
 	// Set up the router and get view
-	$router = new Router($patterns);
-	$view = $router->get_view($request->path);
+	//$router = new Router($patterns);
+	$view = $patterns->get_view($request->path);
 
 	// TODO: Process view middleware
 	//$middleware->process_view($request, $view);
