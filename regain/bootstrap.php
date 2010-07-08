@@ -19,15 +19,18 @@ use regain\HTTP\Request
   ;
 
 try {
-	// Autoload files from here
-        spl_autoload_register('regain\autoload');
-
 	// Fetch the project settings file
 	assert(file_exists('settings.php'), 'The settings.php file does not exist. Each project need to have at least one when using the bootstrapper.');
 	require 'settings.php';
 
+	// Check if there is set a custom autoloader set, if not use regains
+	$autoload = isset($settings['autoload']) ? $settings['autoload'] : 'regain\autoload';
+
+	// Autoload files from here
+        spl_autoload_register($autoload);
+
 	// Overwrite default settings with project settings
-	assert(isset($settings) ,'The settings.php file is malformatted. It has to contain an associative array named $settings.');
+	assert(isset($settings), 'The settings.php file is malformatted. It has to contain an associative array named $settings.');
 	$settings = new Settings($settings);
 
 	// Setting up required variables
@@ -92,7 +95,7 @@ try {
 	// Test for debug-output
 	if($settings->debug) {
 	    if($response instanceof ResponseNotFound) {
-	        include 'regain/templates/errors/ResponseNotFound.php';
+	        include 'regain/templates/debug/404.php';
 	        exit;
 	    }
 	}
@@ -101,7 +104,7 @@ try {
 	echo $response;
         exit;
 } catch(IncludeException $e) {
-    include 'regain/templates/errors/IncludeException.php';
+    include 'regain/templates/debug/include_exception.php';
     exit;
 } catch(\Exception $e) {
     echo "<h1>Reached bottom catch</h1>";

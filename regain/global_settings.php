@@ -1,6 +1,10 @@
 <?php
 
 $settings = array(
+    /* Custom autoload callback to overwrite regain's default behaviour
+    'autoload' => 'regain/autoload',
+    // Note: Must be defined in project settings, only here for reference*/
+
     // Debug always off as standard
     'debug' => false,
 
