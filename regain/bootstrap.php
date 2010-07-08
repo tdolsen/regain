@@ -80,7 +80,7 @@ try {
 
 	// And throw an exception if response is of wrong type
 	if(!$response instanceof Response) {
-	    throw new UnexpectedValueException('The return value of view functions must be an instance of HTTP\Response');
+	    throw new \UnexpectedValueException('The return value of view functions must be an instance of HTTP\Response');
 	}
 
 	// Process response middleware
@@ -92,7 +92,7 @@ try {
 	// Test for debug-output
 	if($settings->debug) {
 	    if($response instanceof ResponseNotFound) {
-	        include 'regain/templates/errors/ReponseNotFound.php';
+	        include 'regain/templates/errors/ResponseNotFound.php';
 	        exit;
 	    }
 	}
@@ -103,7 +103,7 @@ try {
 } catch(IncludeException $e) {
     include 'regain/templates/errors/IncludeException.php';
     exit;
-} catch(Exception $e) {
+} catch(\Exception $e) {
     echo "<h1>Reached bottom catch</h1>";
     print_r($e);
 }

@@ -23,6 +23,10 @@ class Request {
         return $this->data[$key];
     }
 
+    public function __set($key, $value) {
+        $this->data[$key] = $value;
+    }
+
     public function get_host() {
         throw new \regain\NotImplementedException();
     }
