@@ -5,6 +5,13 @@ $settings = array(
     'autoload' => 'regain/autoload',
     // Note: Must be defined in project settings, only here for reference*/
 
+    // Deault template path don't make much sence, therefor its only two relativt paths
+    'template_paths' => array(
+        'templates',   // This equals to ./templates
+        '../templates' // This equals to ../templates
+, '/templates', '/var/www/templates', 'C:/templates'
+    ),
+
     // Debug always off as standard
     'debug' => false,
 

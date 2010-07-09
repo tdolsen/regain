@@ -3,6 +3,7 @@
 namespace regain;
 
 require 'regain/functions.php';
+require 'regain/shortcuts.php';
 
 use regain\HTTP\Request
   , regain\HTTP\Response
