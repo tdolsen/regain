@@ -28,6 +28,10 @@ class Patterns implements \Iterator {
             if(preg_match($regex, $path)) {
                 $ret = $route[1];
 
+                if($ret instanceof \regain\LazyUrlsLoader) {
+                    $ret = $ret->__load();
+                }
+
                 if($ret instanceof Patterns) {
                     $path = preg_replace($regex, '', $path);
                     return $ret->get_view($path);

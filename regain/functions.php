@@ -87,9 +87,22 @@ function _require_once($file, &$var=null) { __process_include('require_once', $f
 
 
 
+// Lazy loader for including urls
+class LazyUrlsLoader {
+    protected $file;
+
+    public function __construct($file) {
+        $this->file = $file;
+    }
+
+    public function __load() {
+        $up = array('patterns');
+        _require($this->file, $up);
+        return $up['patterns'];
+    }
+}
+
 // Offers a way to add hierarcial urls.php definitions
 function include_urls($file) {
-    $up = array('patterns');
-    _require($file, $up);
-    return $up['patterns'];
+    return new LazyUrlsLoader($file);
 }
