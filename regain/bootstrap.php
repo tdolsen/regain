@@ -54,10 +54,11 @@ try {
 
 	if($view === null) {
 	    $response = new ResponseNotFound();
-	    goto response;
+	    goto process_response;
 	}
 
-	$view = explode('\\', $view);
+	$view = preg_split('#[/\\\]#', $view);
+
 	$v = array(
 	    'function' => array_pop($view),
 	    'file' => array_pop($view),
@@ -68,7 +69,9 @@ try {
 	    $v['path'].= '/';
 	}
 
-	_include($v['path'] . $v['file'] . '.php');
+        $file = $v['path'] . $v['file'] . '.php';
+
+	_include($file);
 
 	// TODO: Process view middleware
 	//$middleware->process_view($request, $view);
@@ -87,11 +90,11 @@ try {
 	    throw new \UnexpectedValueException('The return value of view functions must be an instance of HTTP\Response');
 	}
 
+        // goto label for process response middleware
+        process_response:
+
 	// Process response middleware
 	$middleware->process_response($request, $response);
-
-        // goto label for outputting response
-        response:
 
 	// Test for debug-output
 	if($settings->debug) {
