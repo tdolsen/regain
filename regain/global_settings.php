@@ -20,7 +20,5 @@ $settings = array(
 
     // Standard middleware classes in a simple project
     'middleware' => array(
-        'regain\Cookies\Middleware\CookiesMiddleware',
-        'regain\Session\Middleware\SessionMiddleware'
     )
 );
