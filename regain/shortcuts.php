@@ -5,6 +5,6 @@ use regain\HTTP\Response
   ;
 
 function render_to_response($template, $data=null) {
-    $t = new Template($data);
-    return new Response($t->render($template));
+    $t = new Template($template);
+    return new Response($t->render($data));
 }
