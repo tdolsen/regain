@@ -106,3 +106,28 @@ class LazyUrlsLoader {
 function include_urls($file) {
     return new LazyUrlsLoader($file);
 }
+
+// sprintf with named variables
+function sprintfn ($format, array $args = array()) {
+    // map of argument names to their corresponding sprintf numeric argument value
+    $arg_nums = array_slice(array_flip(array_keys(array(0 => 0) + $args)), 1);
+
+    // find the next named argument. each search starts at the end of the previous replacement.
+    for ($pos = 0; preg_match('/(?<=%)([a-zA-Z_]\w*)(?=\$)/', $format, $match, PREG_OFFSET_CAPTURE, $pos);) {
+        $arg_pos = $match[0][1];
+        $arg_len = strlen($match[0][0]);
+        $arg_key = $match[1][0];
+
+        // programmer did not supply a value for the named argument found in the format string
+        if (! array_key_exists($arg_key, $arg_nums)) {
+            user_error("sprintfn(): Missing argument '${arg_key}'", E_USER_WARNING);
+            return false;
+        }
+
+        // replace the named argument with the corresponding numeric one
+        $format = substr_replace($format, $replace = $arg_nums[$arg_key], $arg_pos, $arg_len);
+        $pos = $arg_pos + strlen($replace); // skip to end of replacement for next iteration
+    }
+
+    return vsprintf($format, array_values($args));
+}
