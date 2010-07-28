@@ -2,6 +2,8 @@
 
 namespace regain;
 
+use regain\Exceptions\ErrorException;
+
 // We need this to test for file inclusion. Required to catch errors pretty.
 function is_includable($file) {
     $ip = explode(PATH_SEPARATOR, get_include_path());
@@ -20,9 +22,9 @@ function is_includable($file) {
 // Throw php errors as ErrorException
 function exception_error_handler($errno, $errstr, $errfile, $errline ) {
     if(strtolower(substr($errstr, 0, 7)) == 'require') {
-	#die("require error");
+	die("require error");
     }
-    throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
+    throw new \ErrorException($errstr, 0, $errno, $errfile, $errline);
 }
 
 // Let's make sure files are found
