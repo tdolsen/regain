@@ -17,8 +17,6 @@ function is_includable($file) {
     return false;
 }
 
-
-
 // Throw php errors as ErrorException
 function exception_error_handler($errno, $errstr, $errfile, $errline ) {
     if(strtolower(substr($errstr, 0, 7)) == 'require') {
@@ -27,11 +25,9 @@ function exception_error_handler($errno, $errstr, $errfile, $errline ) {
     throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
 }
 
-
-
 // Let's make sure files are found
 function autoload($class) {
-    $file = str_replace(array('\\'), array('/'), $class) . '.php';
+    $file = str_replace(array('\\', '_'), array('/', '/'), $class) . '.php';
 
     if(!is_includable($file)) {
 	throw new Exceptions\IncludeException($file, 'The file "' . $file . '" is not in include_path, and cannot be included.');
@@ -44,8 +40,6 @@ function autoload($class) {
     }
 }
 
-
-
 // A integrated way to assert certain values. Will throw an AssertException if
 // first parameter is false, with the string in the second parameter as text.
 // First parameter has to be bool.
@@ -57,8 +51,6 @@ function assert($true, $text) {
         throw new Exceptions\AssertException($text);
     }
 }
-
-
 
 // Wrappers includes to throw exceptions on error
 function __process_include($type, $file, &$var=null) {
@@ -84,8 +76,6 @@ function _include($file, &$var=null) { __process_include('include', $file, $var)
 function _include_once($file, &$var=null) { __process_include('include_once', $file, $var); }
 function _require($file, &$var=null) { __process_include('require', $file, $var); }
 function _require_once($file, &$var=null) { __process_include('require_once', $file, $var); }
-
-
 
 // Lazy loader for including urls
 class LazyUrlsLoader {

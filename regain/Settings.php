@@ -2,6 +2,8 @@
 
 namespace regain;
 
+use regain\Exceptions\Exception;
+
 class Settings {
     private static $settings;
 

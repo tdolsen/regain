@@ -23,11 +23,14 @@ try {
     assert(file_exists('settings.php'), 'The settings.php file does not exist. Each project need to have at least one when using the bootstrapper.');
     require 'settings.php';
     
+    // Transform PHP errors to exceptions
+    set_error_handler('regain\exception_error_handler');
+    
     // Check if there is set a custom autoloader set, if not use regains
     $autoload = isset($settings['autoload']) ? $settings['autoload'] : 'regain\autoload';
     
     // Autoload files from here
-        spl_autoload_register($autoload);
+    spl_autoload_register($autoload);
     
     // Overwrite default settings with project settings
     assert(isset($settings), 'The settings.php file is malformatted. It has to contain an associative array named $settings.');

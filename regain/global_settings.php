@@ -17,7 +17,7 @@ $settings = array(
     
     // The template engine is subject to personal preference, but Twig comes as standard
     // Be aware that Twig does not come packed with regain, so it needs to be installed seperatly
-    'template_engine' => 'regain/Template/Adapters/Twig/Engine',
+    'template_engine' => 'regain\Template\Adapters\Twig\Engine',
 
     // Deault template path don't make much sence, therefor its only two relativt paths
     // This setting is an atempt to normalize paths, but could break some engines, so be aware
