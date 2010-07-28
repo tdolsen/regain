@@ -2,7 +2,8 @@
 
 namespace regain;
 
-use regain\Settings;
+use regain\Settings
+  , regain\Exceptions\TemplateImportException;
 
 class Template {
     static protected $engine;
@@ -16,10 +17,15 @@ class Template {
             self::$engine = new $engine($settings);
         }
         
-        $this->template = self::$engine->load_template(ltrim($template, '/'));
+        try {
+            $this->template = self::$engine->load_template(ltrim($template, '/'));
+        } catch(\RuntimeException $e) {
+            throw new TemplateImportException('Could not load template "' . $template . '". File not found in system.');
+        }
     }
 
     public function render($data) {
+        if(!is_array($data)) $data = array();
         return $this->template->render($data);
     }
 }
