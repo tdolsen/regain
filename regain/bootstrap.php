@@ -12,7 +12,7 @@ use regain\HTTP\Request
   , regain\HTTP\ResponseNotFound
   , regain\Middleware\Middleware
   , regain\Settings\Settings
-  , regain\URL\Router
+  , regain\URL\Patterns
   , regain\Exceptions\Exception
   , regain\Exceptions\IncludeException
   , regain\Exceptions\AssertException
@@ -44,11 +44,8 @@ try {
     assert(file_exists($settings->urls_file . '.php'), 'The urls file "' . $settings->urls_file . '.php" does not exist. Make sure the file exist and that it matches your setting in settings.php.');
     require $settings->urls_file . '.php';
     
-    // TODO: Process urls middleware; do we have to?
-    //$middleware->process_urls($request, $patterns);
-    
     // Set up the router and get view
-    //$router = new Router($patterns);
+    assert((isset($patterns) and $patterns instanceof Patterns), 'The ' . $settings->urls_file . '.php is malformatted. It has to conatin an instance of regain\URL\Patterns named $patters.');
     $view = $patterns->get_view($request->path);
     
     if($view === null) {
@@ -68,7 +65,7 @@ try {
         $v['path'].= '/';
     }
     
-        $file = $v['path'] . $v['file'] . '.php';
+    $file = $v['path'] . $v['file'] . '.php';
     
     _include($file);
     
@@ -79,6 +76,7 @@ try {
     //	$response = @call_user_func($view, $request);
     
     if(!function_exists($v['function'])) {
+        // TODO: Make this a special exception for easier debugging
         throw new Exception('Function "' . $v['function'] . '" does not exist.');
     }
     
@@ -113,6 +111,5 @@ try {
     include 'regain/debug/assert_exception.php';
     exit;
 } catch(\Exception $e) {
-    echo "<h1>Reached bottom catch</h1>";
-    print_r($e);
+    include 'regain/debug/exception.php';
 }
