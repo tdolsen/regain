@@ -1,8 +1,9 @@
 <?php
 
-namespace regain\Middleware;
+namespace regain;
+
 use regain\HTTP\Response
-  , regain\Settings\Settings
+  , regain\Settings
   , regain\TypeException
   ;
 

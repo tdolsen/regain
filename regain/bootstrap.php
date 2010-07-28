@@ -10,8 +10,8 @@ require_once 'regain/Exceptions/AssertException.php';
 use regain\HTTP\Request
   , regain\HTTP\Response
   , regain\HTTP\ResponseNotFound
-  , regain\Middleware\Middleware
-  , regain\Settings\Settings
+  , regain\Middleware
+  , regain\Settings
   , regain\URL\Patterns
   , regain\Exceptions\Exception
   , regain\Exceptions\IncludeException

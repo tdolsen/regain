@@ -2,12 +2,12 @@
 
 namespace regain;
 
-use regain\Form\FieldInterface
+use regain\Form\FieldInterface,
+    regain\Utils\sprintfn
   ;
 
 abstract class Form {
     protected $_fields = array();
-    protected $_data;
 
     public function __construct($data = null, array $initial = array()) {
         // Figureing out if the form is bound
@@ -48,14 +48,6 @@ abstract class Form {
         return isset($this->_data[$name]);
     }
     
-    public function __toString() {
-        $out = "";
-        foreach($this->fields as $field) {
-            $out.= (string) $field[1];
-        }
-        return $out;
-    }
-    
     public function is_bound() {
         return $this->bound;
     }
@@ -73,5 +65,56 @@ abstract class Form {
         }
         
         return $this->valid;
+    }
+    
+    protected function output_html($wrapper, $row_wrapper, $normal_row, $error_wrapper, $error_row, $help_text) {
+        $out = "";
+        
+        foreach($this->fields as $field) {
+            $widget = $field->get_widget();
+            
+            $row = sprintfn($normal_row, array(
+                'html_class' => $field->get_class(),
+                'field' => $widget->get_field(),
+                'help_text' => sprintfn($help_text, array('help_text' => $field->help_text))
+            ));
+            
+            if(!$field->is_valid()) {
+                $errors = "";
+                
+                foreach($field->errors as $error) {
+                    $errors.= sprintfn($error_row, array('error' => $error, 'error_class' => ' class="error"'));
+                }
+                
+                $errors = sprintfn($error_wrapper, array('errors' => $errors, 'errors_class' => ' class="errors"'));
+            } else {
+                $errors = '';
+            }
+            
+            $out.= sprintfn($row_wrapper, array('errors' => $errors, 'row' => $row));
+        }
+        
+        return sprintfn($wrapper, array('fields' => $out));
+    }
+    
+    public function __toString() {
+        return $this->output_html(
+            
+        );
+    }
+    
+    public function as_p() {
+        return $this->output_html(
+            '%fields$s',
+            '%errors$s\n%row$s',
+            '<p%html_class$s>%field$s %help_text$s</p>',
+            '<ul%errors_class$s>%errors$s</ul>',
+            '<li%error_class$s>%error$s</li>',
+            '<span>%help_text$s</span>'
+        );
+    }
+    
+    public function as_ul() {
+        
     }
 }

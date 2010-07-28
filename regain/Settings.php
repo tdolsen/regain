@@ -1,6 +1,6 @@
 <?php
 
-namespace regain\Settings;
+namespace regain;
 
 class Settings {
     private static $settings;

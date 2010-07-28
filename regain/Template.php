@@ -3,7 +3,7 @@
 namespace regain;
 
 use regain\Exceptions\TypeException
-  , regain\Settings\Settings
+  , regain\Settings
   ;
 
 class Template {
