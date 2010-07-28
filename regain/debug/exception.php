@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Error: Assert Exception</title>
+    <title>Error: Uncaught Exception</title>
 
     <style>
 <?php include 'regain/debug/style.css'; ?>
@@ -9,13 +9,13 @@
 </head>
 <body>
     <div id="header" class="error">
-        <h1>Error: Assert Exception</h1>
-        <p>An assertion failed in file <strong><?php echo $e->getFile(); ?></strong>.</p>
+        <h1>Error: Uncaught Exception</h1>
+        <p>An uncaught execption was thrown in file <strong><?php echo $e->getFile(); ?></strong>.</p>
     </div>
     
     <div id="body">
-        <div id="assert-message">
-            <h2>Assertion message</h2>
+        <div>
+            <h2>Message</h2>
             <p><?php echo $e->getMessage(); ?></p>
         </div>
     

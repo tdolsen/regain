@@ -12,6 +12,9 @@
         #header.error {
           background: #804040;
         }
+        #header.template.error {
+            background: #1d60a3;
+        }
         #header h1 {
           color: white;
           font-size: 2em;
