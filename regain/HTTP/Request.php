@@ -6,10 +6,19 @@ class Request {
     protected $data;
 
     public function __construct() {
-        $uri = explode('?', $_SERVER['REQUEST_URI'], 2);
+        if(isset($_SERVER['PATH_INFO'])) {
+            $uri = array(
+                $_SERVER['PATH_INFO'],
+                $_SERVER['QUERY_STRING']
+            );
+        } else {
+            $uri = explode('?', $_SERVER['REQUEST_URI'], 2);
+            if(strtolower(substr($uri[0], 0, 10)) == '/index.php') $uri[0] = substr($uri[0], 10);
+        }
 
         $data = array(
             'path' => ltrim($uri[0], '/'),
+            'query_string' => $uri[1],
             'method' => $_SERVER['REQUEST_METHOD'],
             'get' => $_GET,
             'post' => $_POST,

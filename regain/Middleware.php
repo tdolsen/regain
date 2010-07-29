@@ -4,7 +4,8 @@ namespace regain;
 
 use regain\HTTP\Response
   , regain\Settings
-  , regain\TypeException
+  , regain\Exceptions\TypeException
+  , regain\Middleware\Skeleton
   ;
 
 class Middleware {
@@ -29,18 +30,18 @@ class Middleware {
                     if(!$res instanceof Response) {
                         throw new Exception('The middleware class "' . get_class($mw) . '" returned an unknown result for "process_' . $action . '". Must return an instance of HTTP\Response or null.');
                     }
-
-                    throw new $res;
+                    
+                    return $res;
                 }
             }
         }
     }
 
     public function process_request(&$request) {
-        $this->process('request', $request);
+        return $this->process('request', $request);
     }
 
     public function process_response($request, &$response) {
-        $this->process('response', $request, $response);
+        return $this->process('response', $request, $response);
     }
 }

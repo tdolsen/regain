@@ -41,7 +41,15 @@ try {
     $middleware = new Middleware($settings->middleware);
     
     // Process request middleware
-    $middleware->process_request($request);
+    $resp = $middleware->process_request($request);
+    
+    // Check if any middleware classes returned an Response, if so go stright to output
+    if(!is_null($resp) and $resp instanceof Response) {
+        $response = $resp;
+        goto output;
+    } else {
+        unset($resp);
+    }
     
     // Get the url patterns
     assert(file_exists($settings->urls_file . '.php'), 'The urls file "' . $settings->urls_file . '.php" does not exist. Make sure the file exist and that it matches your setting in settings.php.');
@@ -90,11 +98,19 @@ try {
         throw new \UnexpectedValueException('The return value of view functions must be an instance of HTTP\Response');
     }
     
-        // goto label for process response middleware
-        process_response:
+    // goto label for process response middleware
+    process_response:
     
     // Process response middleware
-    $middleware->process_response($request, $response);
+    $resp = $middleware->process_response($request, $response);
+    
+    // Yet again checking if any middleware classes return a response for direct output
+    if(!is_null($resp) and $resp instanceof Response) {
+        $response = $resp;
+        goto output;
+    } else {
+        unset($resp);
+    }
     
     // Test for debug-output
     if($settings->debug) {
@@ -103,6 +119,9 @@ try {
             exit;
         }
     }
+    
+    // goto label for outputting
+    output:
     
     // Get that response out!!!
     echo $response;
