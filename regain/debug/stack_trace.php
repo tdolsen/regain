@@ -21,6 +21,8 @@
                                     echo $arg === true ? 'true' : 'false';
                                 } elseif(is_null($arg)) {
                                     echo 'null';
+                                } elseif(is_object($arg)) {
+                                    echo get_class($arg);
                                 } else {
                                     echo $arg;
                                 }
