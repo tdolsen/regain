@@ -1,6 +1,15 @@
 <?php
 
 $settings = array(
+    // This option should only be used during development or in special cases.
+    // It prefixes any absolute path in the system with it.
+    // Usefull when mod_rewirte can't be used.
+    'absolute_path_prefix' => '',
+    
+    // Appends a slash to the end of the path name and redirects to the page,
+    // if no matches where found without
+    'append_slash' => true,
+    
     /* Custom autoload callback to overwrite regain's default behaviour
     'autoload' => 'regain/autoload',
     // Note: Must be defined in project settings, only here for reference*/
@@ -13,6 +22,7 @@ $settings = array(
 
     // Standard middleware classes in a simple project
     'middleware' => array(
+        'regain\Middleware\Common'
     ),
     
     // The template engine is subject to personal preference, but Twig comes as standard
