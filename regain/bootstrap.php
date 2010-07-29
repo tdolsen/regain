@@ -59,6 +59,7 @@ try {
     assert((isset($patterns) and $patterns instanceof Patterns), 'The ' . $settings->urls_file . '.php is malformatted. It has to conatin an instance of regain\URL\Patterns named $patters.');
     $view = $patterns->get_view($request->path);
     
+    // If no view exists, skip to process response
     if($view === null) {
         $response = new ResponseNotFound();
         goto process_response;
@@ -76,19 +77,13 @@ try {
         $v['path'].= '/';
     }
     
+    // Include the view file
     $file = $v['path'] . $v['file'] . '.php';
-    
     _include($file);
-    
-    // TODO: Process view middleware
-    //$middleware->process_view($request, $view);
-    
-    // Run the view
-    //	$response = @call_user_func($view, $request);
     
     if(!function_exists($v['function'])) {
         // TODO: Make this a special exception for easier debugging
-        throw new Exception('Function "' . $v['function'] . '" does not exist.');
+        throw new Exception('View function "' . $v['function'] . '" does not exist.');
     }
     
     $response = $v['function']($request);
@@ -125,13 +120,13 @@ try {
     
     // Get that response out!!!
     echo $response;
-    exit;
 } catch(IncludeException $e) {
     include 'regain/debug/include_exception.php';
-    exit;
 } catch(AssertException $e) {
     include 'regain/debug/assert_exception.php';
-    exit;
 } catch(\Exception $e) {
     include 'regain/debug/exception.php';
 }
+
+// We'r done, aren't we?
+exit;
