@@ -1,6 +1,6 @@
 <?php
 
-namespace regain\Template\Adapaters\Twig;
+namespace regain\Template\Adapters\Twig;
 
 class Template extends \regain\Template\Template {
     protected $template;

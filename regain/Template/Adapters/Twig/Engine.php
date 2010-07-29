@@ -2,6 +2,8 @@
 
 namespace regain\Template\Adapters\Twig;
 
+use regain\Template\Adapters\Twig\Template;
+
 class Engine extends \regain\Template\Engine {
     protected $twig;
     
@@ -14,6 +16,6 @@ class Engine extends \regain\Template\Engine {
     }
     
     public function load_template($template) {
-        return $this->twig->loadTemplate($template);
+        return new Template($this->twig->loadTemplate($template));
     }
 }
