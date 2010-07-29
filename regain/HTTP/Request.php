@@ -14,6 +14,7 @@ class Request {
         } else {
             $uri = explode('?', $_SERVER['REQUEST_URI'], 2);
             if(strtolower(substr($uri[0], 0, 10)) == '/index.php') $uri[0] = substr($uri[0], 10);
+            if(count($uri) < 2) $uri[1] = '';
         }
 
         $data = array(
