@@ -5,7 +5,7 @@ namespace regain;
 use regain\HTTP\Response
   , regain\Settings
   , regain\Exceptions\TypeException
-  , regain\Middleware\Skeleton
+  , regain\Middleware\MiddlewareInterface
   ;
 
 class Middleware {
@@ -14,7 +14,7 @@ class Middleware {
     public function __construct(array $middleware) {
         foreach($middleware as $mw) {
             $mw = new $mw();
-            if(!$mw instanceof Skeleton) {
+            if(!$mw instanceof MiddlewareInterface) {
                  throw new TypeException('All middleware classes need to be an instance of "regain\Middleware\Skeleton".');
             }
             $this->middleware[] = $mw;

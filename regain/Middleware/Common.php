@@ -2,12 +2,12 @@
 
 namespace regain\Middleware;
 
-use regain\Middleware\Base
+use regain\Middleware\MiddlewareAbstract
   , regain\HTTP\ResponseRedirect
   , regain\Settings
   ;
 
-class Common extends Base {
+class Common extends MiddlewareAbstract {
     public function process_response($request, &$response) {
         // Appends a forward slash if set in the settings
         if(Settings::get('append_slash')) {
