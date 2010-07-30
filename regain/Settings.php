@@ -26,9 +26,11 @@ class Settings {
         self::$settings = array_merge(self::$settings, $settings);
     }
 
-    public static function get($key) {
+    public static function get($key, $fallback = null) {
         if(isset(self::$settings[$key])) {
             return self::$settings[$key];
+        } elseif(isset($fallback)) {
+            return $fallback;
         } else {
             throw new Exception('No setting with key "' . $key . '".');
         }
