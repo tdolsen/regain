@@ -67,7 +67,7 @@ class Settings {
      *
      * @return mixed The setting or fallback
      */
-    public static function get(string $key, $fallback = null) {
+    public static function get($key, $fallback = null) {
         if(isset(self::$settings[$key])) {
             return self::$settings[$key];
         } elseif(isset($fallback)) {

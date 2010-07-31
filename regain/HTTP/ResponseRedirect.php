@@ -18,7 +18,7 @@ class ResponseRedirect extends Response {
      * 
      * @return null
      */
-    public function __construct(string $redirect_to) {
+    public function __construct($redirect_to) {
         parent::__construct('');
         $this->status = 301;
         $this['Location'] = $redirect_to;

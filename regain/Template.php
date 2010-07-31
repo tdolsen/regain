@@ -40,7 +40,7 @@ class Template {
      *
      * @return null
      */
-    public function __construct(string $template) {
+    public function __construct($template) {
         if(!isset($this->engine)) {
             $settings = new Settings();
             $engine = $settings->get('template_engine');

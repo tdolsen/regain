@@ -66,7 +66,7 @@ class Patterns implements \Iterator {
      *
      * @return $this
      */
-    public function add_route(string $regex, $view) {
+    public function add_route($regex, $view) {
         $this->routes[] = array($regex, $view);
     }
     
@@ -79,7 +79,7 @@ class Patterns implements \Iterator {
      *
      * @return string Returns the textual representation of the view function.
      */
-    public function get_view(string $path) {
+    public function get_view($path) {
         foreach($this->routes as $route) {
             $regex = '#' . str_replace('#', '\#', $route[0]) . '#';
             if(preg_match($regex, $path)) {

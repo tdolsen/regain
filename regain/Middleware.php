@@ -55,7 +55,7 @@ class Middleware {
      *                       is an instance of Response(and in that case goes staight
      *                       to output). Returns nothing else.
      */
-    private function process(string $action, &$request, &$response = null) {
+    private function process($action, &$request, &$response = null) {
         $action = 'process_' . $action;
         
         foreach($this->middleware as $mw) {
