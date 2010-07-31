@@ -3,8 +3,8 @@
 namespace regain;
 
 use regain\Settings
-  , regain\Exceptions\Exception
   , regain\Exceptions\TemplateImportException
+  , regain\Exceptions\TypeException
   , regain\Template\EngineInterface
   , regain\Template\TemplateInterface
   ;
@@ -47,7 +47,7 @@ class Template {
             $engine = new $engine($settings);
             
             if(!$engine instanceof EngineInterface) {
-                throw new Exception("The template engine must be an instance of the regain\Template\Engine abstract class. Alternativly a wrapper class.");
+                throw new TypeException("The template engine must be an instance of the regain\Template\Engine abstract class. Alternativly a wrapper class.");
             }
             
             self::$engine = $engine;
@@ -56,7 +56,7 @@ class Template {
         $template = self::$engine->load_template(ltrim($template, '/'));
         
         if(!$template instanceof TemplateInterface) {
-            throw new Exception('The template returned by the engine must be an instance of the regain\Template\Template abstract class.');
+            throw new TypeException('The template returned by the engine must be an instance of the regain\Template\Template abstract class.');
         }
     }
     
