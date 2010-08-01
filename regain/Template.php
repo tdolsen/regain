@@ -58,6 +58,8 @@ class Template {
         if(!$template instanceof TemplateInterface) {
             throw new TypeException('The template returned by the engine must be an instance of the regain\Template\Template abstract class.');
         }
+        
+        $this->template = $template;
     }
     
     /**

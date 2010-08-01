@@ -2,9 +2,10 @@
 
 namespace regain\Template\Adapters\Twig;
 
-use regain\Template\Adapters\Twig\Template;
+use regain\Template\EngineInterface
+  , regain\Template\Adapters\Twig\Template;
 
-class Engine extends \regain\Template\Engine {
+class Engine implements EngineInterface {
     protected $twig;
     
     public function __construct($settings) {
