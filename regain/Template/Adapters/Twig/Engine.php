@@ -2,9 +2,10 @@
 
 namespace regain\Template\Adapters\Twig;
 
-use regain\Template\Adapters\Twig\Template;
+use regain\Template\EngineInterface
+  , regain\Template\Adapters\Twig\Template;
 
-class Engine extends \regain\Template\Engine {
+class Engine implements EngineInterface {
     protected $twig;
     
     public function __construct($settings) {
@@ -16,6 +17,10 @@ class Engine extends \regain\Template\Engine {
     }
     
     public function load_template($template) {
-        return new Template($this->twig->loadTemplate($template));
+        try {
+            return new Template($this->twig->loadTemplate($template));
+        } catch(\RuntimeException $e) {
+            throw new TemplateImportException('Could not load template "' . $template . '". File not found in system.');
+        }
     }
 }
