@@ -8,8 +8,7 @@ class Request {
     public function __construct() {
         if(isset($_SERVER['PATH_INFO'])) {
             $uri = array(
-                $_SERVER['PATH_INFO'],
-                $_SERVER['QUERY_STRING']
+                $_SERVER['PATH_INFO']
             );
         } else {
             $uri = explode('?', $_SERVER['REQUEST_URI'], 2);
@@ -18,7 +17,7 @@ class Request {
 
         $data = array(
             'path' => ltrim($uri[0], '/'),
-            'query_string' => $uri[1],
+            'query_string' => $_SERVER['QUERY_STRING'],
             'method' => $_SERVER['REQUEST_METHOD'],
             'get' => $_GET,
             'post' => $_POST,
