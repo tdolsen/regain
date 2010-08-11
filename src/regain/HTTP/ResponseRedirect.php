@@ -15,12 +15,12 @@ class ResponseRedirect extends Response {
      * the Location header.
      * 
      * @param string $redirect_to The URL which the client should be redirected to
+     * @param array $headers      Additional headers to send
      * 
      * @return null
      */
-    public function __construct($redirect_to) {
-        parent::__construct('');
-        $this->status = 301;
+    public function __construct($redirect_to, array $headers = null) {
+        parent::__construct(null, 301, $headers);
         $this['Location'] = $redirect_to;
     }
 }
