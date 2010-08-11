@@ -2,9 +2,7 @@
 
 namespace regain;
 
-use regain\Form\FieldInterface,
-    regain\Utils\sprintfn
-  ;
+use regain\Form\FieldInterface;
 
 abstract class Form {
     protected $_fields = array();
@@ -27,6 +25,8 @@ abstract class Form {
             }
         }
     }
+    
+    abstract protected function setup();
     
     protected function __set($name, $value) {
         $this->_data[$name] = $value;
