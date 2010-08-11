@@ -30,8 +30,7 @@ class Request {
     public function __construct() {
         if(isset($_SERVER['PATH_INFO'])) {
             $uri = array(
-                $_SERVER['PATH_INFO'],
-                $_SERVER['QUERY_STRING']
+                $_SERVER['PATH_INFO']
             );
         } else {
             $uri = explode('?', $_SERVER['REQUEST_URI'], 2);

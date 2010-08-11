@@ -56,7 +56,7 @@ try {
     require $settings->urls_file . '.php';
     
     // Set up the router and get view
-    assert((isset($patterns) and $patterns instanceof Patterns), 'The ' . $settings->urls_file . '.php is malformatted. It has to conatin an instance of regain\URL\Patterns named $patters.');
+    assert((isset($patterns) and $patterns instanceof Patterns), 'The ' . $settings->urls_file . '.php is malformatted. It has to conatin an instance of regain\URL\Patterns named $patterns.');
     $view = $patterns->get_view($request->path);
     
     // If no view exists, skip to process response
