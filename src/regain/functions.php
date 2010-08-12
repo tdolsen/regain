@@ -22,7 +22,7 @@ function is_includable($file) {
 // Throw php errors as ErrorException
 function exception_error_handler($errno, $errstr, $errfile, $errline ) {
     if(strtolower(substr($errstr, 0, 7)) == 'require') {
-	die("require error");
+	//die("require error");
     }
     throw new \ErrorException($errstr, 0, $errno, $errfile, $errline);
 }
@@ -84,6 +84,9 @@ class LazyUrlsLoader {
     protected $file;
 
     public function __construct($file) {
+	if(substr($file, -4) != '.php') {
+	    $file.= '.php';
+	}
         $this->file = $file;
     }
 
