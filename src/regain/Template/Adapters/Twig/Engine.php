@@ -3,7 +3,9 @@
 namespace regain\Template\Adapters\Twig;
 
 use regain\Template\EngineInterface
-  , regain\Template\Adapters\Twig\Template;
+  , regain\Template\Adapters\Twig\Template
+  , regain\Exceptions\TemplateImportException
+  ;
 
 class Engine implements EngineInterface {
     protected $twig;
@@ -12,7 +14,7 @@ class Engine implements EngineInterface {
         $loader = new \Twig_Loader_Filesystem($settings->template_paths);
         $this->twig = new \Twig_Environment($loader, array(
             'debug' => $settings->debug,
-            'cahrset' => $settings->charset,
+            'charset' => $settings->charset,
         ));
     }
     
