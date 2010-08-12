@@ -35,7 +35,7 @@ class Middleware {
             $mw = new $mw();
             
             if(!$mw instanceof MiddlewareInterface) {
-                throw new TypeException('All middleware classes need to be an instance of "regain\Middleware\Skeleton".');
+                throw new TypeException('All middleware classes need to be an instance of "regain\Middleware\MiddlewareInterface".');
             }
             
             $this->middleware[] = $mw;
