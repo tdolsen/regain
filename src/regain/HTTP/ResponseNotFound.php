@@ -20,6 +20,7 @@ class ResponseNotFound extends Response {
      * @return null
      */
     public function __construct($body = null, array $headers = null) {
+        if(!isset($body)) $body = '<h1>404 - Not Found</h1>';
         parent::__construct($body, 404, $headers);
     }
 }

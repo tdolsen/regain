@@ -51,7 +51,7 @@ class Response implements ArrayAccess {
             $headers = $status;
             $status = null;
         }
-
+        
         if(!isset($status)) {
             $status = 200;
         }
@@ -59,23 +59,29 @@ class Response implements ArrayAccess {
         if(!is_array($headers)) {
             $headers = array();
         }
-
+        
         $this->body = $body;
         $this->status = $status;
         $this->headers = $headers;
     }
-
+    
+    /**
+     * The function making sure to output whatever is stored in the response.
+     * Loops trough all headers, and sends the appropriate status code.
+     *
+     * @return string The content for outputting
+     */
     public function __toString() {
         // TODO: Take into account clients running HTTP/1.0
         // TODO: Complete this with code and textual representation of the status
-        //header('HTTP/1.1 ' . $this->status . )
+        header('HTTP/1.1 ' . $this->status);
         
         // TODO: Make this better, safer, stronger, faster
         foreach($this->headers as $header => $value) {
             header($header . ": " . $value);
         }
-
-        return $this->body;
+        
+        return (string) $this->body;
     }
     
     /* ArrayAccess */
