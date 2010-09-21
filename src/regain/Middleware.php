@@ -60,7 +60,7 @@ class Middleware {
     /**
      * A simple wrapper method around {@link process()} for processing the request.
      *
-     * @param Request &$request The regain\HTTP\Request object
+     * @param Request $request The regain\HTTP\Request object
      *
      * @return Response|null {@see process()}
      */
@@ -86,13 +86,14 @@ class Middleware {
     /**
      * A simple wrapper method around {@link process()} for processing the response.
      *
-     * @param Request $request    The regain\HTTP\Request object
-     * @param Response &$response The regain\HTTP\Response object
+     * @param Request  $request  The regain\HTTP\Request object
+     * @param Response $response The regain\HTTP\Response object
      *
      * @return Response|null {@see process()}
      */
     public function process_response($request, $response) {
-        foreach($this->middleware as $mw) {
+        $mws = array_reverse($this->middleware);
+        foreach($mws as $mw) {
             if(method_exists($mw, 'process_response')) {
                 $res = $mw->process_response($request);
                 

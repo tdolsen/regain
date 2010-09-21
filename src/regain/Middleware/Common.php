@@ -21,7 +21,7 @@ class Common extends MiddlewareAbstract {
      * All behaviour can be modified in settings
      *
      * @param regain\HTTP\Request  $request
-     * @param regain\HTTP\response &$response
+     * @param regain\HTTP\response $response
      *
      * @return mixed
      */
