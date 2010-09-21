@@ -41,14 +41,12 @@ try {
     $middleware = new Middleware($settings->middleware);
     
     // Process request middleware
-    $resp = $middleware->process_request($request);
+    $request = $middleware->process_request($request);
     
     // Check if any middleware classes returned an Response, if so go stright to output
-    if(!is_null($resp) and $resp instanceof Response) {
-        $response = $resp;
+    if($request instanceof Response) {
+        $response = $request;
         goto output;
-    } else {
-        unset($resp);
     }
     
     // Get the url patterns
@@ -97,20 +95,12 @@ try {
     process_response:
     
     // Process response middleware
-    $resp = $middleware->process_response($request, $response);
-    
-    // Yet again checking if any middleware classes return a response for direct output
-    if(!is_null($resp) and $resp instanceof Response) {
-        $response = $resp;
-        goto output;
-    } else {
-        unset($resp);
-    }
+    $response = $middleware->process_response($request, $response);
     
     // Test for debug-output
     if($settings->debug) {
-        if($response instanceof ResponseNotFound) {
-            include 'regain/templates/debug/404.php';
+        if($response->status == 404) {
+            include 'regain/debug/404.php';
             exit;
         }
     }
