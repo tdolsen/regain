@@ -17,7 +17,7 @@ abstract class MiddlewareAbstract implements MiddlewareInterface {
      *
      * @return mixed
      */
-    public function process_request(&$request) {}
+    public function process_request($request) {}
     
     /**
      * Empty wrapper for process_response.
@@ -27,5 +27,5 @@ abstract class MiddlewareAbstract implements MiddlewareInterface {
      *
      * @return mixed
      */
-    public function process_response($request, &$response) {}
+    public function process_response($request, $response) {}
 }

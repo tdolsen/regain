@@ -25,7 +25,7 @@ class Common extends MiddlewareAbstract {
      *
      * @return mixed
      */
-    public function process_response($request, &$response) {
+    public function process_response($request, $response) {
         // Appends a forward slash if set in the settings
         if(Settings::get('append_slash')) {
             if($response->status == 404 and substr($request->path, -1, 1) != '/') {
@@ -39,5 +39,7 @@ class Common extends MiddlewareAbstract {
                 return new ResponseRedirect($path);
             }
         }
+        
+        return $response;
     }
 }

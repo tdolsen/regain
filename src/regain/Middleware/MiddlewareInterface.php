@@ -20,7 +20,7 @@ interface MiddlewareInterface {
      * @return mixed Should return either null, or a regain\HTTP\Response object
      *               to be submitted directly to output
      */
-    public function process_request(&$request);
+    public function process_request($request);
     
     /**
      * Processes the response object after the view is run. The $response parameter
@@ -34,5 +34,5 @@ interface MiddlewareInterface {
      * @return mixed Should return either null, or a regain\HTTP\Response object
      *               to be submitted directly to output
      */
-    public function process_response($request, &$response);
+    public function process_response($request, $response);
 }

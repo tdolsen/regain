@@ -3,6 +3,7 @@
 namespace regain;
 
 use regain\HTTP\Response
+  , reagin\HTTP\Request
   , regain\Settings
   , regain\Exceptions\TypeException
   , regain\Middleware\MiddlewareInterface
@@ -55,24 +56,6 @@ class Middleware {
      *                       is an instance of Response(and in that case goes staight
      *                       to output). Returns nothing else.
      */
-    private function process($action, &$request, &$response = null) {
-        $action = 'process_' . $action;
-        
-        foreach($this->middleware as $mw) {
-            // Only if the middleware has the action
-            if(method_exists($mw, $action)) {
-                $res = $mw->$action($request, $response);
-                
-                if($res != null) {
-                    if(!$res instanceof Response) {
-                        throw new TypeException('The middleware class "' . get_class($mw) . '" returned an unknown result for "process_' . $action . '". Must return an instance of HTTP\Response or null.');
-                    }
-                    
-                    return $res;
-                }
-            }
-        }
-    }
     
     /**
      * A simple wrapper method around {@link process()} for processing the request.
@@ -81,8 +64,23 @@ class Middleware {
      *
      * @return Response|null {@see process()}
      */
-    public function process_request(&$request) {
-        return $this->process('request', $request);
+    public function process_request($request) {
+        foreach($this->middleware as $mw) {
+            if(method_exists($mw, 'process_request')) {
+                $res = $mw->process_request($request);
+                
+                if(!$res instanceof Request) {
+                    if($res instanceof Response) {
+                        return $res;
+                    } else {
+                        throw new TypeException('The process_request method expects a Request or Response object in return. "' . get_class($mw) . '" return an object of type "' . gettype($res) . '"');
+                    }
+                }
+                
+                $request = $res;
+            }
+        }
+        return $request;
     }
     
     /**
@@ -93,7 +91,18 @@ class Middleware {
      *
      * @return Response|null {@see process()}
      */
-    public function process_response($request, &$response) {
-        return $this->process('response', $request, $response);
+    public function process_response($request, $response) {
+        foreach($this->middleware as $mw) {
+            if(method_exists($mw, 'process_response')) {
+                $res = $mw->process_response($request);
+                
+                if(!$res instanceof Response) {
+                    throw new TypeException('The process_response method expects a Response object in return. "' . get_class($mw) . '" return an object of type "' . gettype($res) . '"');
+                }
+                
+                $request = $res;
+            }
+        }
+        return $request;
     }
 }
