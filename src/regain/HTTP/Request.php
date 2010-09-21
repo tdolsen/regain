@@ -82,7 +82,6 @@ class Request {
      * @return null
      */
     public function __set($key, $value) {
-        // TODO: Maybe setup some variables that are read-only, and throw exceptions when setting them
         $this->data[$key] = $value;
     }
     
@@ -127,7 +126,7 @@ class Request {
     public function is_secure() {
         return (
                 isset($this->meta['HTTPS'])
-                and $this->meta['HTTPS'] == 'on'
+                and strtolower($this->meta['HTTPS']) == 'on'
                );
     }
 }
