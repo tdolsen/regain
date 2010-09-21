@@ -22,7 +22,8 @@ $settings = array(
 
     // Standard middleware classes in a simple project
     'middleware' => array(
-        'regain\Middleware\Common'
+        'regain\Middleware\Common',
+        'reagin\Middlewara\Cookies'
     ),
     
     // The template engine is subject to personal preference, but Twig comes as standard

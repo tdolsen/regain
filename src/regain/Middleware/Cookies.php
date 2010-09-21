@@ -8,39 +8,6 @@ use regain\Middleware\MiddlewareAbstract
   ;
 
 /**
- * A middleware class for handling cookies in a simpler and integrated way.
- *
- * @author     Torkild Dyvik Olsen <torkild@tdolsen.net>
- * @package    regain
- */
-class Cookies extends MiddlewareAbstract {
-    /**
-     * Processes the request object and adds an instance of the CookieJar to it.
-     *
-     * @param regain\HTTP\Request $request
-     *
-     * @return regain\HTTP\Request
-     */
-    public function process_request($request) {
-        $request->cookies = new CookieJar();
-        return $request;
-    }
-    
-    /**
-     * Processe the response object. Destroys the CookieJar to send headers.
-     *
-     * @param regain\HTTP\Request $request
-     * @param regain\HTTP\Response $response
-     *
-     * @return regain\HTTP\Response
-     */
-    public function _process_response($request, $response) {
-        unset($request->cookies);
-        return $response;
-    }
-}
-
-/**
  * The cookie class used by the middleware. It keeps track of all cookies
  * set during a request, and sends them at request.
  *
@@ -151,5 +118,38 @@ class CookieJar {
         foreach($this->dough as $dough) {
             call_user_func_array('set_cookie', $dough);
         }
+    }
+}
+
+/**
+ * A middleware class for handling cookies in a simpler and integrated way.
+ *
+ * @author     Torkild Dyvik Olsen <torkild@tdolsen.net>
+ * @package    regain
+ */
+class Cookies extends MiddlewareAbstract {
+    /**
+     * Processes the request object and adds an instance of the CookieJar to it.
+     *
+     * @param regain\HTTP\Request $request
+     *
+     * @return regain\HTTP\Request
+     */
+    public function process_request($request) {
+        $request->cookies = new CookieJar();
+        return $request;
+    }
+    
+    /**
+     * Processe the response object. Destroys the CookieJar to send headers.
+     *
+     * @param regain\HTTP\Request $request
+     * @param regain\HTTP\Response $response
+     *
+     * @return regain\HTTP\Response
+     */
+    public function _process_response($request, $response) {
+        unset($request->cookies);
+        return $response;
     }
 }
