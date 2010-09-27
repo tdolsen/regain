@@ -5,6 +5,9 @@ namespace regain;
 use regain\Form\FieldInterface;
 
 abstract class Form {
+    protected $bound;
+    protected $valid;
+    
     protected $_fields = array();
 
     public function __construct($data = null, $initial = array()) {
@@ -27,16 +30,9 @@ abstract class Form {
                 $this->_fields[$key] = $field;
             }
         }
-        
-        print_r($this->_fields);
-        exit;
     }
     
     abstract protected function setup();
-    
-    protected function __set($name, $value) {
-        $this->_data[$name] = $value;
-    }
     
     public function __get($name) {
         return $this->_fields[$name]->cleanded_value();
@@ -68,23 +64,23 @@ abstract class Form {
     protected function output_html($wrapper, $row_wrapper, $normal_row, $error_wrapper, $error_row, $help_text) {
         $out = "";
         
-        foreach($this->fields as $field) {
-            $widget = $field->get_widget();
+        foreach($this->_fields as $field) {
+            $help_text = $field->get_help_text();
             
             $row = sprintfn($normal_row, array(
-                'html_class' => $field->get_class(),
+                'html_class' => '',
                 'field' => (string) $field,
-                'help_text' => sprintfn($help_text, array('help_text' => $field->get_help_text()))
+                'help_text' => !empty($help_text) ? ' ' . sprintfn($help_text, array('help_text' => $help_text)) : ''
             ));
             
-            if(!$field->is_valid()) {
-                $errors = "";
+            if($this->is_bound() and !$field->is_valid()) {
+                $errors = '';
                 
-                foreach($field->errors as $error) {
-                    $errors.= sprintfn($error_row, array('error' => $error, 'error_class' => ' class="error"'));
-                }
+                #foreach($field->errors as $error) {
+                #    $errors.= sprintfn($error_row, array('error' => $error, 'error_class' => ' class="error"'));
+                #}
                 
-                $errors = sprintfn($error_wrapper, array('errors' => $errors, 'errors_class' => ' class="errors"'));
+                #$errors = sprintfn($error_wrapper, array('errors' => $errors, 'errors_class' => ' class="errors"'));
             } else {
                 $errors = '';
             }
@@ -96,23 +92,17 @@ abstract class Form {
     }
     
     public function __toString() {
-        return $this->output_html(
-            
-        );
+        return $this->as_p();
     }
     
     public function as_p() {
         return $this->output_html(
             '%fields$s',
-            '%errors$s\n%row$s',
-            '<p%html_class$s>%field$s %help_text$s</p>',
+            '%errors$s' . "\n" . '%row$s',
+            '<p%html_class$s>%field$s%help_text$s</p>',
             '<ul%errors_class$s>%errors$s</ul>',
             '<li%error_class$s>%error$s</li>',
             '<span>%help_text$s</span>'
         );
-    }
-    
-    public function as_ul() {
-        
     }
 }

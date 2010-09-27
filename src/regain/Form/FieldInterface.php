@@ -17,8 +17,6 @@ interface FieldInterface {
     public function get_value();
     public function set_value($value);
     
-    public function get_widget();
-    public function get_class();
     public function get_help_text();
     
     public function __toString();
