@@ -7,7 +7,7 @@ use regain\Form\FieldInterface;
 abstract class Form {
     protected $_fields = array();
 
-    public function __construct($data = null, array $initial = array()) {
+    public function __construct($data = null, $initial = array()) {
         // Figureing out if the form is bound
         if(!is_null($data) and is_array($data)) {
             $this->bound = true;
@@ -17,13 +17,19 @@ abstract class Form {
         }
         
         // Setting up the fields
+        $this->setup();
+        
         foreach(get_object_vars($this) as $key => $field) {
             if($field instanceof FieldInterface) {
-                if(isset($initial[$key])) $field->set_inital($initial[$key]);
+                $field->set_name($key);
+                if(isset($initial[$key])) $field->set_initial($initial[$key]);
                 if(isset($data[$key])) $field->set_value($data[$key]);
-                $this->_fields[] = array($key, $field);
+                $this->_fields[$key] = $field;
             }
         }
+        
+        print_r($this->_fields);
+        exit;
     }
     
     abstract protected function setup();
@@ -33,19 +39,11 @@ abstract class Form {
     }
     
     public function __get($name) {
-        if($key == 'errors') {
-            
-        } elseif($key == 'cleaned_data') {
-            
-        } elseif(substr($key, 0, 3) == 'as_') {
-            
-        } else {
-            return $this->_data[$name];
-        }
+        return $this->_fields[$name]->cleanded_value();
     }
     
     public function __isset($name) {
-        return isset($this->_data[$name]);
+        return $this->_fields[$name]->is_set();
     }
     
     public function is_bound() {
@@ -57,7 +55,7 @@ abstract class Form {
             $this->valid = true;
             
             foreach($this->_fields as $field) {
-                if(!$field[1]->is_valid()) {
+                if(!$field->is_valid()) {
                     $this->valid = false;
                     break;
                 }
@@ -75,8 +73,8 @@ abstract class Form {
             
             $row = sprintfn($normal_row, array(
                 'html_class' => $field->get_class(),
-                'field' => $widget->get_field(),
-                'help_text' => sprintfn($help_text, array('help_text' => $field->help_text))
+                'field' => (string) $field,
+                'help_text' => sprintfn($help_text, array('help_text' => $field->get_help_text()))
             ));
             
             if(!$field->is_valid()) {
