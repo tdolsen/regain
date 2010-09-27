@@ -13,7 +13,7 @@ use regain\Middleware\MiddlewareAbstract
  * @author     Torkild Dyvik Olsen <torkild@tdolsen.net>
  * @package    regain
  */
-class Common extends MiddlewareAbstract {
+class Common {
     /**
      * Processes common response behaviours. Currently does the following:
      * - Appends a forward slash after the path name

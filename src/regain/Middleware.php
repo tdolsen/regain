@@ -33,13 +33,7 @@ class Middleware {
      */
     public function __construct(array $middleware) {
         foreach($middleware as $mw) {
-            $mw = new $mw();
-            
-            if(!$mw instanceof MiddlewareInterface) {
-                throw new TypeException('All middleware classes need to be an instance of "regain\Middleware\MiddlewareInterface".');
-            }
-            
-            $this->middleware[] = $mw;
+            $this->middleware[] = new $mw();
         }
     }
     
@@ -95,7 +89,7 @@ class Middleware {
         $mws = array_reverse($this->middleware);
         foreach($mws as $mw) {
             if(method_exists($mw, 'process_response')) {
-                $res = $mw->process_response($request);
+                $res = $mw->process_response($request, $response);
                 
                 if(!$res instanceof Response) {
                     throw new TypeException('The process_response method expects a Response object in return. "' . get_class($mw) . '" return an object of type "' . gettype($res) . '"');

@@ -13,19 +13,23 @@ abstract class MiddlewareAbstract implements MiddlewareInterface {
     /**
      * Empty wrapper for process_request.
      *
-     * @param regain\HTTP\Request &$request
+     * @param regain\HTTP\Request $request
      *
-     * @return mixed
+     * @return regain\HTTP\Request
      */
-    public function process_request($request) {}
+    public function process_request($request) {
+        return $request;
+    }
     
     /**
      * Empty wrapper for process_response.
      *
      * @param regain\HTTP\Request  $request
-     * @param regain\HTTP\Response &$response
+     * @param regain\HTTP\Response $response
      *
-     * @return mixed
+     * @return regain\HTTP\Response
      */
-    public function process_response($request, $response) {}
+    public function process_response($request, $response) {
+        return $response;
+    }
 }
