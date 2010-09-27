@@ -3,5 +3,5 @@
 namespace regain\Form;
 
 interface WidgetInterface {
-    public function output($name, $value);
+    public function output($field);
 }

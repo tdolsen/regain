@@ -73,6 +73,10 @@ abstract class FieldAbstract implements FieldInterface {
         $this->bound = true;
     }
     
+    public function get_name() {
+        return $this->name;
+    }
+    
     public function set_name($name) {
         $this->name = $name;
     }
@@ -90,6 +94,6 @@ abstract class FieldAbstract implements FieldInterface {
     }
     
     public function __toString() {
-        return $this->widget->output($this->name, $this->value);
+        return $this->widget->output($this);
     }
 }
