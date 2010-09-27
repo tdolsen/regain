@@ -82,18 +82,25 @@ function _require_once($file, &$var=null) { __process_include('require_once', $f
 // Lazy loader for including urls
 class LazyUrlsLoader {
     protected $file;
+    protected $path;
 
     public function __construct($file) {
 	if(substr($file, -4) != '.php') {
 	    $file.= '.php';
 	}
+	
+	$pos = strrpos($file, '/');
+	$this->path = substr($file, 0, $pos);
+	
         $this->file = $file;
     }
 
     public function __load() {
         $up = array('patterns');
         _require($this->file, $up);
-        return $up['patterns'];
+        $p = $up['patterns'];
+	$p->set_base_dir($this->path);
+	return $p;
     }
 }
 

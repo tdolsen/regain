@@ -12,6 +12,13 @@ use regain\LazyUrlsLoader;
  */
 class Patterns implements \Iterator {
     /**
+     * The base directory used for all views.
+     *
+     * @var string
+     */
+    protected $base_dir = '';
+    
+    /**
      * Keeps track of all routes
      * 
      * @var array
@@ -97,6 +104,7 @@ class Patterns implements \Iterator {
                 }
                 
                 if($ret instanceof Patterns) {
+                    $ret->add_base_dir($this->base_dir);
                     $path = preg_replace($regex, '', $path);
                     return $ret->get_view($path);
                 }
@@ -104,9 +112,31 @@ class Patterns implements \Iterator {
                 array_shift($matches);
                 self::$parameters = $matches;
                 
-                return $ret;
+                return $this->base_dir . '/' . $ret;
             }
         }
+    }
+    
+    /**
+     * Sets a string as base directory for all the view files.
+     *
+     * @param string The base directory
+     *
+     * @return null
+     */
+    public function set_base_dir($dir) {
+        $this->base_dir = trim($dir, '/');
+    }
+    
+    /**
+     * Adds a base dir befor the currently set base dir.
+     *
+     * @param string The directory to set as base
+     *
+     * @return null
+     */
+    public function add_base_dir($dir) {
+        $this->base_dir = trim($dir, '/') . '/' . $this->base_dir;
     }
     
     /**
