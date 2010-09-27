@@ -5,6 +5,7 @@ namespace regain\Template\Adapters\Twig;
 use regain\Template\EngineInterface
   , regain\Template\Adapters\Twig\Template
   , regain\Exceptions\TemplateImportException
+  , regain\Exceptions\TemplateSyntaxException
   ;
 
 class Engine implements EngineInterface {
@@ -23,6 +24,8 @@ class Engine implements EngineInterface {
             return new Template($this->twig->loadTemplate($template));
         } catch(\RuntimeException $e) {
             throw new TemplateImportException('Could not load template "' . $template . '". File not found in system.');
+        } catch(\Twig_SyntaxError $e) {
+            throw new TemplateSyntaxException($e->getMessage(), $e->getCode(), $e->getFilename());
         }
     }
 }

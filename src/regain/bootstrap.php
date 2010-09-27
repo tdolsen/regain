@@ -16,6 +16,7 @@ use regain\HTTP\Request
   , regain\Exceptions\Exception
   , regain\Exceptions\IncludeException
   , regain\Exceptions\AssertException
+  , regain\Exceptions\TemplateSyntaxException
   ;
 
 try {
@@ -84,7 +85,11 @@ try {
         throw new Exception('View function "' . $v['function'] . '" does not exist.');
     }
     
-    $response = $v['function']($request);
+    // Get parameters for the view function
+    $params = $patterns->get_paramters();
+    array_unshift($params, $request);
+    
+    $response = call_user_func_array($v['function'], $params);
     
     // And throw an exception if response is of wrong type
     if(!$response instanceof Response) {
@@ -114,6 +119,8 @@ try {
     include 'regain/debug/include_exception.php';
 } catch(AssertException $e) {
     include 'regain/debug/assert_exception.php';
+} catch(TemplateSyntaxException $e) {
+    include 'regain/debug/template_syntax_exception.php';
 } catch(\Exception $e) {
     include 'regain/debug/exception.php';
 }
