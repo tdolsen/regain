@@ -3,7 +3,7 @@
 namespace regain;
 
 use regain\HTTP\Response
-  , reagin\HTTP\Request
+  , regain\HTTP\Request
   , regain\Settings
   , regain\Exceptions\TypeException
   , regain\Middleware\MiddlewareInterface
@@ -95,9 +95,9 @@ class Middleware {
                     throw new TypeException('The process_response method expects a Response object in return. "' . get_class($mw) . '" return an object of type "' . gettype($res) . '"');
                 }
                 
-                $request = $res;
+                $response = $res;
             }
         }
-        return $request;
+        return $response;
     }
 }

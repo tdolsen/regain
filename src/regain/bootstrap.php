@@ -42,13 +42,16 @@ try {
     $middleware = new Middleware($settings->middleware);
     
     // Process request middleware
-    $request = $middleware->process_request($request);
+    $res = $middleware->process_request($request);
     
     // Check if any middleware classes returned an Response, if so go stright to output
-    if($request instanceof Response) {
-        $response = $request;
+    if($res instanceof Response) {
+        $response = $res;
         goto output;
     }
+    
+    // Set the request object to it's new state
+    $request = $res;
     
     // Get the url patterns
     assert(file_exists($settings->urls_file . '.php'), 'The urls file "' . $settings->urls_file . '.php" does not exist. Make sure the file exist and that it matches your setting in settings.php.');
