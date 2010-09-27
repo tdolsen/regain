@@ -1,6 +1,9 @@
 <?php
 
 $settings = array(
+    // Debug always off as standard
+    'debug' => false,
+    
     // This option should only be used during development or in special cases.
     // It prefixes any absolute path in the system with it.
     // Usefull when mod_rewirte can't be used.
@@ -17,13 +20,12 @@ $settings = array(
     // The charset your project should be outputted with
     'charset' => 'utf-8',
     
-    // Debug always off as standard
-    'debug' => false,
+    // A secret key used various places for hashes
+    'secret_key' => '',
 
     // Standard middleware classes in a simple project
     'middleware' => array(
-        'regain\Middleware\Common',
-        'reagin\Middlewara\Cookies'
+        'regain\Middleware\Common'
     ),
     
     // The template engine is subject to personal preference, but Twig comes as standard
