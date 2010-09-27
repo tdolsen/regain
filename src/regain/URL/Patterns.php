@@ -26,6 +26,13 @@ class Patterns implements \Iterator {
     protected $iterator = 0;
     
     /**
+     * An static array storing the parameters set in the view regexp.
+     *
+     * @var array
+     */
+    static protected $parameters = array();
+    
+    /**
      * The constructor. Takes an optional parameter for setting inital routes, and
      * passes it to {@link add_routes()}.
      *
@@ -82,21 +89,34 @@ class Patterns implements \Iterator {
     public function get_view($path) {
         foreach($this->routes as $route) {
             $regex = '#' . str_replace('#', '\#', $route[0]) . '#';
-            if(preg_match($regex, $path)) {
+            if(preg_match($regex, $path, $matches)) {
                 $ret = $route[1];
-
+                
                 if($ret instanceof LazyUrlsLoader) {
                     $ret = $ret->__load();
                 }
-
+                
                 if($ret instanceof Patterns) {
                     $path = preg_replace($regex, '', $path);
                     return $ret->get_view($path);
                 }
-
+                
+                array_shift($matches);
+                self::$parameters = $matches;
+                
                 return $ret;
             }
         }
+    }
+    
+    /**
+     * Simply returns the parameters defined by the view regexp, for use in view
+     * functions.
+     *
+     * @return array The parameters caught by the regexp for the last returned view.
+     */
+    public function get_paramters() {
+        return self::$parameters;
     }
 
     /* Iterator */
@@ -104,19 +124,19 @@ class Patterns implements \Iterator {
     public function current() {
         return $this->routes[$this->iterator];
     }
-
+    
     public function key() {
         return $this->iterator;
     }
-
+    
     public function next() {
         $this->iterator++;
     }
-
+    
     public function rewind() {
         $this->iterator = 0;
     }
-
+    
     public function valid() {
         return isset($this->routes[$this->iterator]);
     }
