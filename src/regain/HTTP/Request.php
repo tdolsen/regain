@@ -44,7 +44,7 @@ class Request {
             'get' => $_GET,
             'post' => $_POST,
             'meta' => $_SERVER,
-            'cookie' => $_COOKIE
+            'cookies' => $_COOKIE
         );
         
         $this->data = $data;

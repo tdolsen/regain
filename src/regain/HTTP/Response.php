@@ -103,7 +103,10 @@ class Response implements ArrayAccess {
         
         // TODO: This is a simple implementation for cookies. But is it enough?
         foreach($this->cookies as $key => $cookie) {
-            call_user_func_array('set_cookie', array_merge(array($key), array_values($cookie)));
+            $cookie = array_values($cookie);
+            array_unshift($cookie, $key);
+            
+            call_user_func_array('setcookie', $cookie);
         }
         
         // TODO: Make this better, safer, stronger, faster
