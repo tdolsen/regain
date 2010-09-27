@@ -14,6 +14,7 @@ abstract class WidgetAbstract implements WidgetInterface {
     protected function parse($type, $name, $value = '') {
         $o = '<input type="' . $type . '" '
            . 'name="' . $name . '" '
+           . 'id="inp_' . $name . '" '
            . (!empty($value) ? ' value="' . $value . '" ' : null)
            . '/>';
         return $o;
