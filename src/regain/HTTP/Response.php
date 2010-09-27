@@ -20,6 +20,14 @@ class Response implements ArrayAccess {
     protected $body;
     
     /**
+     * All new cookies get stored here untill, and sent when the object is
+     * sent to the client.
+     *
+     * @var cookies array
+     */
+    public $cookies = array();
+    
+    /**
      * An associative array representing additional headers to send. The index
      * is the header and the value is the.. well, the value.
      *
@@ -66,6 +74,23 @@ class Response implements ArrayAccess {
     }
     
     /**
+     * The only way to create cookies. Well not the only, but at least one of them.
+     *
+     * @param string  $name     The name of the cookie
+     * @param string  $value    The value of the cookie as a string
+     * @param integer $expire   A UNIX timestamp for when the cookie should expire
+     * @param string  $path     The path the cookie will be availabke on
+     * @param string  $domain   The domain the cookie should be available on
+     * @param boolean $secure   True if cookie only can be sent over HTTPS
+     * @param boolean $httponly True if cookie only can be accessed by a server
+     *
+     * @return boolean False if any problems occur
+     */
+    public function set_cookie($name, $value, $expire = 0, $path = null, $domain = null, $secure = false, $httponly = false) {
+        $this->cookies[$name] = array('value' => $value, 'expires' => $expire, 'path' => $path, 'domain' => $domain, 'secure' => $secure, 'httponly' => $httponly);
+    }
+    
+    /**
      * The function making sure to output whatever is stored in the response.
      * Loops trough all headers, and sends the appropriate status code.
      *
@@ -75,6 +100,11 @@ class Response implements ArrayAccess {
         // TODO: Take into account clients running HTTP/1.0
         // TODO: Complete this with code and textual representation of the status
         header('HTTP/1.1 ' . $this->status);
+        
+        // TODO: This is a simple implementation for cookies. But is it enough?
+        foreach($this->cookies as $key => $cookie) {
+            call_user_func_array('set_cookie', array_merge(array($key), array_values($cookie)));
+        }
         
         // TODO: Make this better, safer, stronger, faster
         foreach($this->headers as $header => $value) {
