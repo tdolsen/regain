@@ -56,7 +56,7 @@ abstract class FieldAbstract implements FieldInterface {
     
     public function is_valid() {
         if($this->required and !$this->bound) return false;
-        if($this->empty and empty($this->value)) return false;
+        if(!$this->empty and empty($this->value)) return false;
         return true;
     }
     
