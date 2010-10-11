@@ -1,8 +1,8 @@
 <?php
 
-namespace regain\Form;
+namespace regain\Form\Widget;
 
-use regain\Form\WidgetInterface;
+use regain\Form\Widget\WidgetInterface;
 
 abstract class WidgetAbstract implements WidgetInterface {
     protected $type = 'text';

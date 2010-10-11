@@ -1,8 +1,8 @@
 <?php
 
-namespace regain\Form;
+namespace regain\Form\Field;
 
-use regain\Form\TextWidget;
+use regain\Form\Widget\TextWidget;
 
 abstract class FieldAbstract implements FieldInterface {
     protected $name;
@@ -38,6 +38,11 @@ abstract class FieldAbstract implements FieldInterface {
         }
     }
     
+    // This is intended to create the field specific validations
+    public function validate() {
+        return true;
+    }
+    
     public function is_bound() {
         return $this->bound;
     }
@@ -57,7 +62,7 @@ abstract class FieldAbstract implements FieldInterface {
     public function is_valid() {
         if($this->required and !$this->bound) return false;
         if(!$this->empty and empty($this->value)) return false;
-        return true;
+        return $this->validate();
     }
     
     public function get_value() {

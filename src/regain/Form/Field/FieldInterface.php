@@ -1,6 +1,6 @@
 <?php
 
-namespace regain\Form;
+namespace regain\Form\Field;
 
 interface FieldInterface {
     public function is_bound();

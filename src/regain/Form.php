@@ -2,7 +2,7 @@
 
 namespace regain;
 
-use regain\Form\FieldInterface;
+use regain\Form\Field\FieldInterface;
 
 abstract class Form {
     protected $bound;

@@ -1,8 +1,8 @@
 <?php
 
-namespace regain\Form;
+namespace regain\Form\Widget;
 
-use regain\Form\WidgetAbstract;
+use regain\Form\Widget\WidgetAbstract;
 
 class TextWidget extends WidgetAbstract {
     protected $type = 'text';
