@@ -61,7 +61,7 @@ abstract class FieldAbstract implements FieldInterface {
     }
     
     public function get_value() {
-        return $this->value;
+        return htmlspecialchars($this->value);
     }
     
     public function cleaned_value() {
