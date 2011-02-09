@@ -20,12 +20,11 @@ class Response implements ArrayAccess {
     protected $body;
     
     /**
-     * All new cookies get stored here untill, and sent when the object is
-     * sent to the client.
+     * All new cookies get stored here, and sent to the browser on output.
      *
      * @var cookies array
      */
-    public $cookies = array();
+    protected $cookies = array();
     
     /**
      * An associative array representing additional headers to send. The index
@@ -33,7 +32,7 @@ class Response implements ArrayAccess {
      *
      * @var $headers array
      */
-    protected $headers;
+    protected $headers = array();
     
     /**
      * A variable holding the HTTP status.
@@ -75,6 +74,7 @@ class Response implements ArrayAccess {
     
     /**
      * The only way to create cookies. Well not the only, but at least one of them.
+     * Basically only remaps to PHP's setcookie
      *
      * @param string  $name     The name of the cookie
      * @param string  $value    The value of the cookie as a string
