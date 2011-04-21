@@ -53,7 +53,7 @@ class Response implements ArrayAccess {
      *
      * @return null
      */
-    public function __construct($body = null, $status=null, array $headers=null) {
+    public function __construct($body = null, $status = null, array $headers = null) {
         if(is_array($status) and !isset($headers)) {
             $headers = $status;
             $status = null;
