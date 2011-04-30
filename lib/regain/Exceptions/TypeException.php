@@ -2,4 +2,4 @@
 
 namespace regain\Exceptions;
 
-class TypeException extends Exception {}
+class TypeException extends \Exception {}

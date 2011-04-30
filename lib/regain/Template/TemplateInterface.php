@@ -17,7 +17,7 @@ interface TemplateInterface {
      * @return null
      */
     public function __construct($template);
-    
+
     /**
      * The method responsible for rendering the template.
      *

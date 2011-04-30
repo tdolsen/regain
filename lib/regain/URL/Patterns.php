@@ -17,28 +17,28 @@ class Patterns implements \Iterator {
      * @var string
      */
     protected $base_dir = '';
-    
+
     /**
      * Keeps track of all routes
-     * 
+     *
      * @var array
      */
     protected $routes = array();
-    
+
     /**
      * Stores the counter for implementation of Iterator
-     * 
+     *
      * @var integer
      */
     protected $iterator = 0;
-    
+
     /**
      * An static array storing the parameters set in the view regexp.
      *
      * @var array
      */
     static protected $parameters = array();
-    
+
     /**
      * The constructor. Takes an optional parameter for setting inital routes, and
      * passes it to {@link add_routes()}.
@@ -53,7 +53,7 @@ class Patterns implements \Iterator {
             $this->add_routes($patterns);
         }
     }
-    
+
     /**
      * Adds an associative array of routes to the stack.
      *
@@ -66,10 +66,10 @@ class Patterns implements \Iterator {
         foreach($routes as $regex => $view) {
             $this->add_route($regex, $view);
         }
-        
+
         return $this;
     }
-    
+
     /**
      * Adds a single route to the stack.
      *
@@ -83,7 +83,7 @@ class Patterns implements \Iterator {
     public function add_route($regex, $view) {
         $this->routes[] = array($regex, $view);
     }
-    
+
     /**
      * A recursive method searching for matches in the patterns stack. If the view
      * defined for the pattern is an instance of regain\URL\Patterns, the method
@@ -98,25 +98,25 @@ class Patterns implements \Iterator {
             $regex = '#' . str_replace('#', '\#', $route[0]) . '#';
             if(preg_match($regex, $path, $matches)) {
                 $ret = $route[1];
-                
+
                 if($ret instanceof LazyUrlsLoader) {
                     $ret = $ret->__load();
                 }
-                
+
                 if($ret instanceof Patterns) {
                     $ret->add_base_dir($this->base_dir);
                     $path = preg_replace($regex, '', $path);
                     return $ret->get_view($path);
                 }
-                
+
                 array_shift($matches);
                 self::$parameters = $matches;
-                
+
                 return $this->base_dir . '/' . $ret;
             }
         }
     }
-    
+
     /**
      * Sets a string as base directory for all the view files.
      *
@@ -127,7 +127,7 @@ class Patterns implements \Iterator {
     public function set_base_dir($dir) {
         $this->base_dir = trim($dir, '/');
     }
-    
+
     /**
      * Adds a base dir befor the currently set base dir.
      *
@@ -138,7 +138,7 @@ class Patterns implements \Iterator {
     public function add_base_dir($dir) {
         $this->base_dir = trim($dir, '/') . '/' . $this->base_dir;
     }
-    
+
     /**
      * Simply returns the parameters defined by the view regexp, for use in view
      * functions.
@@ -154,19 +154,19 @@ class Patterns implements \Iterator {
     public function current() {
         return $this->routes[$this->iterator];
     }
-    
+
     public function key() {
         return $this->iterator;
     }
-    
+
     public function next() {
         $this->iterator++;
     }
-    
+
     public function rewind() {
         $this->iterator = 0;
     }
-    
+
     public function valid() {
         return isset($this->routes[$this->iterator]);
     }

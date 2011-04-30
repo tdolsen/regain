@@ -16,12 +16,12 @@ interface MiddlewareInterface {
      * return a response obejct.
      *
      * @param  regain\HTTP\Request &$request The request objects, passed by reference
-     * 
+     *
      * @return mixed Should return either null, or a regain\HTTP\Response object
      *               to be submitted directly to output
      */
     public function process_request($request);
-    
+
     /**
      * Processes the response object after the view is run. The $response parameter
      * can be manipulated, as it is passed by reference. If one would want to stop

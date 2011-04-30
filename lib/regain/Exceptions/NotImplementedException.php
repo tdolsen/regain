@@ -2,4 +2,4 @@
 
 namespace regain\Exceptions;
 
-class NotImplementedException extends Exception {}
+class NotImplementedException extends \Exception {}

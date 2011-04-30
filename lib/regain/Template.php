@@ -24,14 +24,14 @@ class Template {
      * @var $engine mixed
      */
     static protected $engine;
-    
+
     /**
      * A variable holding a reference to the template the current instance represent.
      *
      * @var $template mixed
      */
     protected $template;
-    
+
     /**
      * The contstructor, setting up the {@link $engine} on first run, and the
      * {@link $template} on each run.
@@ -45,23 +45,23 @@ class Template {
             $settings = new Settings();
             $engine = $settings->get('template_engine');
             $engine = new $engine($settings);
-            
+
             if(!$engine instanceof EngineInterface) {
-                throw new TypeException("The template engine must be an instance of the regain\Template\Engine abstract class. Alternativly a wrapper class.");
+                throw new TypeException('The template engine must be an instance of the regain\Template\Engine abstract class. Alternativly a wrapper class.');
             }
-            
+
             self::$engine = $engine;
         }
-        
+
         $template = self::$engine->load_template(ltrim($template, '/'));
-        
+
         if(!$template instanceof TemplateInterface) {
             throw new TypeException('The template returned by the engine must be an instance of the regain\Template\Template abstract class.');
         }
-        
+
         $this->template = $template;
     }
-    
+
     /**
      * A simple wrapper function to render the template. Simply calls on the
      * referenced templates render method. Takes one parameter and passes it

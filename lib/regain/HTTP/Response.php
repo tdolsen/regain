@@ -18,14 +18,14 @@ class Response implements ArrayAccess {
      * @var $body string
      */
     protected $body;
-    
+
     /**
      * All new cookies get stored here, and sent to the browser on output.
      *
      * @var cookies array
      */
     protected $cookies = array();
-    
+
     /**
      * An associative array representing additional headers to send. The index
      * is the header and the value is the.. well, the value.
@@ -33,7 +33,7 @@ class Response implements ArrayAccess {
      * @var $headers array
      */
     protected $headers = array();
-    
+
     /**
      * A variable holding the HTTP status.
      *
@@ -41,7 +41,7 @@ class Response implements ArrayAccess {
      */
     public $status;
     // TODO: Make a getter/setter around status to validate real http headers
-    
+
     /**
      * The standard constructor for making a response object.
      *
@@ -58,20 +58,20 @@ class Response implements ArrayAccess {
             $headers = $status;
             $status = null;
         }
-        
+
         if(!isset($status)) {
             $status = 200;
         }
-        
+
         if(!is_array($headers)) {
             $headers = array();
         }
-        
+
         $this->body = $body;
         $this->status = $status;
         $this->headers = $headers;
     }
-    
+
     /**
      * The only way to create cookies. Well not the only, but at least one of them.
      * Basically only remaps to PHP's setcookie
@@ -89,7 +89,7 @@ class Response implements ArrayAccess {
     public function set_cookie($name, $value, $expire = 0, $path = null, $domain = null, $secure = false, $httponly = false) {
         $this->cookies[$name] = array('value' => $value, 'expires' => $expire, 'path' => $path, 'domain' => $domain, 'secure' => $secure, 'httponly' => $httponly);
     }
-    
+
     /**
      * The function making sure to output whatever is stored in the response.
      * Loops trough all headers, and sends the appropriate status code.
@@ -100,37 +100,37 @@ class Response implements ArrayAccess {
         // TODO: Take into account clients running HTTP/1.0
         // TODO: Complete this with code and textual representation of the status
         header('HTTP/1.1 ' . $this->status);
-        
+
         // TODO: This is a simple implementation for cookies. But is it enough?
         foreach($this->cookies as $key => $cookie) {
             $cookie = array_values($cookie);
             array_unshift($cookie, $key);
-            
+
             call_user_func_array('setcookie', $cookie);
         }
-        
+
         // TODO: Make this better, safer, stronger, faster
         foreach($this->headers as $header => $value) {
             header($header . ": " . $value);
         }
-        
+
         return (string) $this->body;
     }
-    
+
     /* ArrayAccess */
     // TODO: Again, should I write documentation for these?
     public function offsetExists($offset) {
         return isset($this->headers[$offset]);
     }
-    
+
     public function offsetGet($offset) {
         return $this->headers[$offset];
     }
-    
+
     public function offsetSet($offset, $value) {
         $this->headers[$offset] = $value;
     }
-    
+
     public function offsetUnset($offset) {
         unset($this->headers[$offset]);
     }

@@ -17,7 +17,7 @@ abstract class TemplateAbstract implements TemplateInterface {
      * @var $template mixed
      */
     protected $template;
-    
+
     /**
      * A simple standard behaviour for accepting and storing the template.
      *

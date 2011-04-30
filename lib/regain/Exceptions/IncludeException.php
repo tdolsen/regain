@@ -2,7 +2,7 @@
 
 namespace regain\Exceptions;
  
-class IncludeException extends Exception {
+class IncludeException extends \Exception {
     protected $include_file;
 
     public function __construct($include_file, $text=null) {

@@ -21,7 +21,7 @@ class Request {
      * @var array
      */
     protected $data;
-    
+
     /**
      * The constructor, setting up all basic information related to the request.
      *
@@ -36,7 +36,7 @@ class Request {
             $uri = explode('?', $_SERVER['REQUEST_URI'], 2);
             if(strtolower(substr($uri[0], 0, 10)) == '/index.php') $uri[0] = substr($uri[0], 10);
         }
-        
+
         $data = array(
             'path' => ltrim($uri[0], '/'),
             'query_string' => $_SERVER['QUERY_STRING'],
@@ -46,10 +46,10 @@ class Request {
             'meta' => $_SERVER,
             'cookies' => $_COOKIE
         );
-        
+
         $this->data = $data;
     }
-    
+
     /**
      * Magic __get method for accessing {@link $data}.
      *
@@ -61,7 +61,7 @@ class Request {
         // TODO: Maybe throw some exceptions if key is unset
         return $this->data[$key];
     }
-    
+
     /**
      * Magic __isset method.
      *
@@ -72,7 +72,7 @@ class Request {
     public function __isset($key) {
         return isset($this->data[$key]);
     }
-    
+
     /**
      * Magic __set method for adding attiontion information to the data array.
      *
@@ -84,7 +84,7 @@ class Request {
     public function __set($key, $value) {
         $this->data[$key] = $value;
     }
-    
+
     /**
      * Should return the hostname for the current request.
      *
@@ -93,7 +93,7 @@ class Request {
     public function get_host() {
         throw new \regain\NotImplementedException();
     }
-    
+
     /**
      * Returns the request URI. However, it seems like there is something wrong.
      *
@@ -102,7 +102,7 @@ class Request {
     public function get_full_path() {
         return $this->meta['REQUEST_URI'];
     }
-    
+
     /**
      * A method for checking if the request is called with ajax.
      *
@@ -117,7 +117,7 @@ class Request {
                 and $this->meta['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest'
                );
     }
-    
+
     /**
      * A method for checking wheter a request is sent over the HTTPS protocol.
      *

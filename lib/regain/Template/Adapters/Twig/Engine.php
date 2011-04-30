@@ -10,7 +10,7 @@ use regain\Template\EngineInterface
 
 class Engine implements EngineInterface {
     protected $twig;
-    
+
     public function __construct($settings) {
         $loader = new \Twig_Loader_Filesystem($settings->template_paths);
         $this->twig = new \Twig_Environment($loader, array(
@@ -18,7 +18,7 @@ class Engine implements EngineInterface {
             'charset' => $settings->charset,
         ));
     }
-    
+
     public function load_template($template) {
         try {
             return new Template($this->twig->loadTemplate($template));

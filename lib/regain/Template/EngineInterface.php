@@ -18,7 +18,7 @@ interface EngineInterface {
      * @return null
      */
     public function __construct($settings);
-    
+
     /**
      * A method used for loading a single template. The method must return a object
      * that is an instance of regain\Template\TemplateInterface.

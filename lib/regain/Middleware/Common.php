@@ -31,15 +31,15 @@ class Common {
             if($response->status == 404 and substr($request->path, -1, 1) != '/') {
                 // TODO: How to handle POST request, as they can't be redirected
                 $path = Settings::get('absolute_path_prefix') . '/' . $request->path . '/';
-                
+
                 if($request->query_string != '') {
                     $path.= '?' . $request->query_string;
                 }
-                
+
                 return new ResponseRedirect($path);
             }
         }
-        
+
         return $response;
     }
 }

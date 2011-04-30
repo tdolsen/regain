@@ -22,7 +22,7 @@ class Middleware {
      * @var $middleware array
      */
     protected $middleware = array();
-    
+
     /**
      * The constructor, responsible for setting up and validating the middleware
      * classes.
@@ -36,7 +36,7 @@ class Middleware {
             $this->middleware[] = new $mw();
         }
     }
-    
+
     /**
      * A method for processing the defined action in all middleware classes.
      * Both the request and response object it passed as a reference to this method.
@@ -50,7 +50,7 @@ class Middleware {
      *                       is an instance of Response(and in that case goes staight
      *                       to output). Returns nothing else.
      */
-    
+
     /**
      * A simple wrapper method around {@link process()} for processing the request.
      *
@@ -62,21 +62,23 @@ class Middleware {
         foreach($this->middleware as $mw) {
             if(method_exists($mw, 'process_request')) {
                 $res = $mw->process_request($request);
-                
+
                 if(!$res instanceof Request) {
                     if($res instanceof Response) {
                         return $res;
                     } else {
-                        throw new TypeException('The process_request method expects a Request or Response object in return. "' . get_class($mw) . '" return an object of type "' . gettype($res) . '"');
+                        throw new TypeException(
+                            'The process_request method expects a Request or Response object in return. "' . get_class($mw) . '" return an object of type "' . gettype($res) . '"'
+                        );
                     }
                 }
-                
+
                 $request = $res;
             }
         }
         return $request;
     }
-    
+
     /**
      * A simple wrapper method around {@link process()} for processing the response.
      *
@@ -90,11 +92,13 @@ class Middleware {
         foreach($mws as $mw) {
             if(method_exists($mw, 'process_response')) {
                 $res = $mw->process_response($request, $response);
-                
+
                 if(!$res instanceof Response) {
-                    throw new TypeException('The process_response method expects a Response object in return. "' . get_class($mw) . '" return an object of type "' . gettype($res) . '"');
+                    throw new TypeException(
+                        'The process_response method expects a Response object in return. "' . get_class($mw) . '" return an object of type "' . gettype($res) . '"'
+                    );
                 }
-                
+
                 $response = $res;
             }
         }

@@ -20,7 +20,7 @@ abstract class MiddlewareAbstract implements MiddlewareInterface {
     public function process_request($request) {
         return $request;
     }
-    
+
     /**
      * Empty wrapper for process_response.
      *

@@ -13,10 +13,10 @@ class ResponseNotFound extends Response {
     /**
      * The cunstructor function overriding the status, calling parent constructor
      * with a 404 status code.
-     * 
+     *
      * @param string $body   A possible body to return
      * @param array $headers Additional headers to send
-     * 
+     *
      * @return null
      */
     public function __construct($body = null, array $headers = null) {

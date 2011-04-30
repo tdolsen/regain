@@ -10,11 +10,11 @@ use regain\Template\EngineInterface
 
 class Engine implements EngineInterface {
     protected $settings;
-    
+
     public function __construct($settings) {
         $this->settings = $settings;
     }
-    
+
     public function load_template($template) {
         try {
             return new Template($settings, $template);

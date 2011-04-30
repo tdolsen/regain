@@ -22,14 +22,14 @@ class CookieJar {
      * @var cookies array
      */
     private $cookies = array();
-    
+
     /**
      * This is the new dough, ready for shipment to the client.
      *
      * @var dough array
      */
     private $dough = array();
-    
+
     /**
      * Sets up the cookie jar, and fills it with delicious cookies.
      *
@@ -38,19 +38,19 @@ class CookieJar {
     public function __construct() {
         $this->cookies = $_COOKIE;
     }
-    
+
     /**
      * Makes it easy to access the cookie jar.
-     * 
+     *
      * @param string $name The name of the cookie to find in the cookie jar
-     * 
+     *
      * @return mixed
      */
     public function __get($name) {
         // TODO: Exception when not found?
         return $this->cookies[$name];
     }
-    
+
     /**
      * Checks for a cookie in the cookie jar.
      *
@@ -61,7 +61,7 @@ class CookieJar {
     public function __isset($name) {
         return isset($this->cookies[$name]);
     }
-    
+
     /**
      * Makes it easy to add new cookies to the cookie jar. These cookies will
      * only be session cookies, using standard PHP fallbacks for all parameters
@@ -75,7 +75,7 @@ class CookieJar {
     public function __set($name, $value) {
         $this->set($name, $value);
     }
-    
+
     /**
      * Removes a cookie from the cookie jar, and sends a cookie with a negative
      * expiration time and same name.
@@ -89,7 +89,7 @@ class CookieJar {
         unset($this->dough[$name]);
         $this->set($name, '', time()-36000);
     }
-    
+
     /**
      * The only way to create cookies. Well not the only, but at least one of them.
      *
@@ -107,7 +107,7 @@ class CookieJar {
         $this->cookies[$name] = $value;
         $this->dough[] = array($name, $value, $expire, $path, $domain, $secure, $httponly);
     }
-    
+
     /**
      * It's such a good cookie jar that we have to destroy it to get it open and
      * send those cookies.
@@ -139,7 +139,7 @@ class Cookies extends MiddlewareAbstract {
         $request->cookies = new CookieJar();
         return $request;
     }
-    
+
     /**
      * Processe the response object. Destroys the CookieJar to send headers.
      *

@@ -2,4 +2,4 @@
 
 namespace regain\Exceptions;
 
-class TemplateImportException extends Exception {}
+class TemplateImportException extends \Exception {}

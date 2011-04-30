@@ -17,7 +17,7 @@ class Settings {
      * @var $settings array
      */
     private static $settings;
-    
+
     /**
      * The constructor, simply handeling instanciation and adding additional settings.
      *
@@ -33,7 +33,7 @@ class Settings {
             self::update($settings);
         }
     }
-    
+
     /**
      * A method making sure the global settings are loaded and at first call.
      *
@@ -45,7 +45,7 @@ class Settings {
             self::$settings = $settings;
         }
     }
-    
+
     /**
      * Updates the settings array with keys in given array.
      *
@@ -57,7 +57,7 @@ class Settings {
         self::setup();
         self::$settings = array_merge(self::$settings, $settings);
     }
-    
+
     /**
      * Gets a value in the settings, with an optional fallback if the setting is
      * unset. If setting is unset an no fallback is set, throws an exception.
@@ -77,7 +77,7 @@ class Settings {
             throw new Exception('No setting with key "' . $key . '".');
         }
     }
-    
+
     /**
      * Magic __get method, remapping to {@link get()}. No fallback is possible.
      *
@@ -88,7 +88,7 @@ class Settings {
     public function __get($key) {
         return self::get($key);
     }
-    
+
     /**
      * Magic __isset method for cheking if a setting is set.
      *
