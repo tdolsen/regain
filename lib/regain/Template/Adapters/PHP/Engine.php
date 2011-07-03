@@ -17,7 +17,7 @@ class Engine implements EngineInterface {
 
     public function load_template($template) {
         try {
-            return new Template($settings, $template);
+            return new Template($this->settings, $template);
         } catch(\RuntimeException $e) {
             throw new TemplateImportException('Could not load template "' . $template . '". File not found in system.');
         }
